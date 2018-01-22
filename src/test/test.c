@@ -115,8 +115,8 @@ int main()
     uint8_t mac[SDCP_DIGEST_SIZE_V1] = { 0 };
     ASSERT_EQUAL(0, sdcpcli_mac_claim_hash(
         &app_keys,
-        claim_hash, SDCP_DIGEST_SIZE_V1,
-        mac, SDCP_DIGEST_SIZE_V1));
+        claim_hash, sizeof(claim_hash),
+        mac, sizeof(mac)));
     print_bytes("m", mac, sizeof(mac));
 
     // Now simulate a reconnect. The host will send new random bytes for

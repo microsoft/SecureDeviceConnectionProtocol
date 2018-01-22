@@ -16,10 +16,12 @@ void secure_zero_memory(void* ptr, size_t len)
 
 void print_bytes(const char* label, const uint8_t* bytes, size_t len)
 {
+    const size_t bytes_per_line = 32;
+
     printf("%s:", label);
     for (size_t i = 0; i < len; ++i)
     {
-        if ((i % 32) == 0)
+        if ((i % bytes_per_line) == 0)
         {
             printf("\n  ");
         }
