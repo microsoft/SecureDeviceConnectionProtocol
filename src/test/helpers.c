@@ -29,3 +29,19 @@ void print_bytes(const char* label, const uint8_t* bytes, size_t len)
     }
     putc('\n', stdout);
 }
+
+void print_bytes_err(const char* label, const uint8_t* bytes, size_t len)
+{
+    const size_t bytes_per_line = 32;
+
+    fprintf(stderr, "%s:", label);
+    for (size_t i = 0; i < len; ++i)
+    {
+        if ((i % bytes_per_line) == 0)
+        {
+            fprintf(stderr, "\n  ");
+        }
+        fprintf(stderr, "%02x", bytes[i]);
+    }
+    putc('\n', stderr);
+}
