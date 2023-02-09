@@ -620,20 +620,19 @@ int sdcpcli_verify_enrollment_mac(
     data[0].len = nonce_len;
 
     uint8_t verify_mac[SDCP_DIGEST_SIZE_V1] = { 0 };
-    int err = mac_with_label(
+    mac_with_label(
         keys,
         SDCP_LABEL_ENROLL,
         data, sizeof(data) / sizeof(data[0]),
         verify_mac, sizeof(verify_mac));
-    if (err == 0)
+    
+    int diff = 0;
+    for (size_t i = 0; i < sizeof(verify_mac); i++)
     {
-        if (memcmp(mac, verify_mac, sizeof(verify_mac)) != 0)
-        {
-            err = MBEDTLS_ERR_MD_BAD_INPUT_DATA;
-        }
+        diff |= mac[i] ^ verify_mac[i];
     }
 
-    return err;
+    return diff == 0 ? 0 : MBEDTLS_ERR_MD_BAD_INPUT_DATA;
 }
 
 static int generate_iv(
